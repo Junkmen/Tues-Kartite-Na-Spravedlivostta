@@ -1,0 +1,8 @@
+#include "card.h"
+#define _DECK_ 30
+struct deck_t {
+	
+	int size;
+	struct card_t card_deck[_DECK_];
+	
+}
