@@ -1,15 +1,20 @@
 #include "board.h"
 
+init_board(struct board_t *board)
+{
+		
+}
+
 int can_play_card(struct board_t *board, int first_pl, int card, int num_lane) {
 	
-	if(board -> Card_Positions[num_lane][first_pl] = -1) {
+	if(board -> Card_Positions[num_lane][first_pl] == -1) {
 		if (can_put_card( board -> Player[first_pl].cards_in_hand.card_deck[card],board -> Player[first_pl].manapool)) {
 			return 1;
-		} 
-		return 2;
-	} else {
-		return 0;
-	}
+		} else {
+			return 2;
+		}
+	} 
+	return 0;
 
 }
 int play_card(struct board_t *board, int first_pl, int card, int num_lane){
@@ -41,7 +46,7 @@ void turn_end(struct board_t *board, int first_pl) {
 					default: break;
 				}			
 			} else {
-				board-> Player[other_pl].health -= board-> Cards_on_Board.card_deck[ board -> Card_Positions[i][first_pl]].damage;
+				change_hp(&board-> Player[other_pl],  board-> Cards_on_Board.card_deck[ board -> Card_Positions[i][first_pl]].damage*-1);
 			}
 	}
 	board -> Player[first_pl].manapool.max_mana++;
