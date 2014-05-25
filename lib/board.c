@@ -1,7 +1,35 @@
 #include "board.h"
 
+void PrintBoard(struct board_t board) {
+	
+	printf("\n\n\n\n\nPLAYER:PLAYER1 (%d),MANA %d/%d,TURN:x",board.Player[0].health,board.Player[0].manapool.mana ,board.Player[0].manapool.max_mana);
+	printf("\n___________________________________________________________________\n|");
+	int i;
+	for (i = 0; i < 5; i++) {
+		if(board.Player[0].Open_Spots_Hand[i] == 1) printf("      |");
+		else print_card(board.Player[0].cards_in_hand.card_deck[i]);
+	}
+	printf("\n###################################################################\n#");
+	for (i = 0; i < 5; i++) {
+		if (board.Card_Positions[i][0] == -1) printf("      #");
+		else print_card(board.Cards_on_Board.card_deck[board.Card_Positions[i][0]]);
+	}
+	printf("\n#");
+	for (i = 0; i < 5; i++) {
+		if (board.Card_Positions[i][1] == -1) printf("      #");
+		else print_card(board.Cards_on_Board.card_deck[board.Card_Positions[i][1]]);
+	}
+	printf("\n###################################################################\n|");
+	for (i = 0; i < 5; i++) {
+		if(board.Player[1].Open_Spots_Hand[i] == 1) printf("      |");
+		else print_card(board.Player[1].cards_in_hand.card_deck[i]);
+	}
+	printf("\n___________________________________________________________________\n|");
+	printf("PLAYER:PLAYER2 (%d),MANA %d/%d,TURN:x\n",board.Player[1].health,board.Player[1].manapool.mana ,board.Player[1].manapool.max_mana);	
+	
+}
 
-int DeckFromFile(struct board_t *board, int pPlayer, char *filename) {
+int DeckFromFile(struct board_t *board, int pPlayer, char *filename) {	
 	FILE *fp;
 	char str[1800];
 	char *buff;

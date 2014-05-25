@@ -17,22 +17,26 @@ int main()
 		return -1;
 	}
 	// =================
+	winner = 0;
+	PrintBoard(board);
 	while(winner == 0) {
-	
+		pCard = 0;
 		turn_begin(&board.Player[pTurn]);
 		//Print Board Here !
-
+		PrintBoard(board);
 		//==================
 		while (pCard != 6) {
 			printf("Choose card:");
 			scanf("%d",&pCard);
-			printf("\nChoose lane:");
-			scanf("%d",&mLane);
-			int result = play_card(&board,pTurn,pCard,mLane);
-			
+			if (pCard !=6) {
+				printf("\nChoose lane:");
+				scanf("%d",&mLane);
+				int result = play_card(&board,pTurn,pCard-1,mLane-1);
+			}		
 			
 		}
-		turn_end(&board,pTurn);			
+		turn_end(&board,pTurn);	
+		pTurn = 1-pTurn;		
 	}
 	
 	return 0;
