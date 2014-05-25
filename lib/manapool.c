@@ -14,4 +14,5 @@ int use_card(struct card_t *card, struct manapool_t *pool) {
 int change_mana(struct manapool_t *manapool,int remove) {
 	//Remove can be negative and positive.	
 	manapool-> mana += remove;
+	if (manapool -> mana > xMAXMANA) manapool -> mana = xMAXMANA;
 }
