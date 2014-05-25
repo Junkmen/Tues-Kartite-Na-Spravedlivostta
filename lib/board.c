@@ -1,8 +1,55 @@
 #include "board.h"
 
-init_board(struct board_t *board)
+
+int DeckFromFile(struct board_t *board, int pPlayer, char *filename) {
+	FILE *fp;
+	char str[1800];
+	char *buff;
+	fp = fopen(filename, "r");
+	if (fp == NULL) return 0;
+	while( fgets(str, 1800, fp) ) {
+		buff = strtok(str, ",");
+		sscanf(buff,"%s", &board->Player[pPlayer].deck.card_deck[board->Player[pPlayer].deck.size].name);
+	
+		buff = strtok(str, ",");
+		sscanf(buff,"%d", &board->Player[pPlayer].deck.card_deck[board->Player[pPlayer].deck.size].mana);
+
+		buff = strtok(str, ",");
+		sscanf(buff,"%d", &board->Player[pPlayer].deck.card_deck[board->Player[pPlayer].deck.size].damage);
+
+		buff = strtok(str, ",");
+		sscanf(buff,"%d", &board->Player[pPlayer].deck.card_deck[board->Player[pPlayer].deck.size].health);
+
+		board->Player[pPlayer].deck.size++;	
+	}
+	fclose(fp);
+	return 1;
+}
+
+int init_board(struct board_t *board)
 {
-		
+	int i;
+	for (i = 0; i < 5; i++) {
+		board -> Card_Positions[i][0] = -1;
+		board -> Card_Positions[i][1] = -1;
+		board -> Open_Spots[i] = 1;
+		board -> Player[0].Open_Spots_Hand[i] = 1;
+		board -> Player[1].Open_Spots_Hand[i] = 1;
+	}
+	board -> Cards_on_Board.size = 0;
+	board -> Player[0].health = xMAXHEALTH;
+	board -> Player[1].health = xMAXHEALTH;
+	board -> Player[0].cards_in_hand.size = 0;
+	board -> Player[1].cards_in_hand.size = 0;
+	board -> Player[0].deck.size = 0;
+	board -> Player[1].deck.size = 0;
+	board -> Player[0].manapool.mana = 1;
+	board -> Player[0].manapool.max_mana = 1;
+	board -> Player[1].manapool.mana = 1;
+	board -> Player[1].manapool.max_mana = 1;
+	if(!DeckFromFile(board,0,"p1deck.csv")) return 0;
+	if(!DeckFromFile(board,1,"p1deck.csv")) return 0;
+	return 1;
 }
 
 int can_play_card(struct board_t *board, int first_pl, int card, int num_lane) {
@@ -18,14 +65,15 @@ int can_play_card(struct board_t *board, int first_pl, int card, int num_lane) {
 
 }
 int play_card(struct board_t *board, int first_pl, int card, int num_lane){
-	
-	if (can_play_card(board,first_pl,card,num_lane) == 1) {
+	int result = can_play_card(board,first_pl,card,num_lane);
+	if (result == 1) {
 	
 		struct card_t card_to_board = board->Player[first_pl].cards_in_hand.card_deck[card];
 		board -> Card_Positions[num_lane][first_pl] = board -> Cards_on_Board.size;
 		board -> Open_Spots[ board -> Card_Positions[num_lane][first_pl]] = 0;	
 		push_card(card_to_board, &board->Cards_on_Board);
 	}	
+	return result;
 
 }
 void turn_end(struct board_t *board, int first_pl) {
