@@ -18,7 +18,6 @@ int main()
 	}
 	// =================
 	winner = 0;
-	PrintBoard(board);
 	while(winner == 0) {
 		pCard = 0;
 		turn_begin(&board.Player[pTurn]);
@@ -28,16 +27,19 @@ int main()
 		while (pCard != 6) {
 			printf("Choose card:");
 			scanf("%d",&pCard);
-			if (pCard !=6) {
+			if (pCard !=6 && board.Player[pTurn].Open_Spots_Hand[pCard-1] != 1) {
 				printf("\nChoose lane:");
 				scanf("%d",&mLane);
 				int result = play_card(&board,pTurn,pCard-1,mLane-1);
+						PrintBoard(board);
 			}		
 			
 		}
-		turn_end(&board,pTurn);	
-		pTurn = 1-pTurn;		
+		turn_end(&board,pTurn);
+		pTurn = 1-pTurn;	
+		if (board.Player[pTurn].health <= 0) winner = pTurn+1;	
 	}
+	if("\n\nWinner is Player: %d\n\n",winner);
 	
 	return 0;
 }
