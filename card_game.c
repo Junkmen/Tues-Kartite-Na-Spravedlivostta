@@ -3,6 +3,7 @@
 #include<time.h>
 #include "lib/board.h"
 
+int seedNotGiven = 1;
 void RunSimpleAI(struct board_t *board, int pTurn) {
 	int hasMana = 1;
 	int CardToPlay = 0;
@@ -25,7 +26,10 @@ void RunSimpleAI(struct board_t *board, int pTurn) {
 }
 //Stefan Iliev. - Special Project: Card Generator. 
 struct card_t GenerateCard() {
-	srand(time(NULL));
+	if (seedNotGiven) {
+		srand(time(NULL));
+		seedNotGiven = 0;
+	}
 	struct card_t GeneratedCard;
 	
 	int damage = rand()%10+1;
