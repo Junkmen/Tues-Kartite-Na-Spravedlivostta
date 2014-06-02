@@ -89,7 +89,6 @@ int main()
 	WriteGeneratedDeckToFile(&generatedDeck,"idiocracy.csv");
 	generatedCard = GenerateCard();
 	print_card(generatedCard,1);
-	return 0;
 	// INIT STUFF HERE !
 	if (!init_board(&board)) {
 		printf("Error.File Not Found! WTF, DO NOT TOUCH THE DATA !\n");
