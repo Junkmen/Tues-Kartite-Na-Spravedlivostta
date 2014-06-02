@@ -1,4 +1,5 @@
-#include "card.h"			
+#include "card.h"	
+#include<stdio.h>		
 int card_attack(struct card_t *attacker, struct card_t *defender) 
 {
 	int survivor=0;

@@ -138,8 +138,8 @@ void turn_end(struct board_t *board, int first_pl) {
 				change_hp(&board-> Player[other_pl],  board-> Cards_on_Board.card_deck[ board -> Card_Positions[i][first_pl]].damage*-1);
 			}
 	}
-
-	board -> Player[first_pl].manapool.max_mana++;
+	if (board -> Player[first_pl].manapool.max_mana < 10)
+		board -> Player[first_pl].manapool.max_mana++;
 	board -> Player[first_pl].manapool.mana = board -> Player[first_pl].manapool.max_mana;
 }
 
